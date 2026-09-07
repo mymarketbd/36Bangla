@@ -4,17 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:vinext": "vinext dev",
     "build": "next build --webpack",
-    "build:vinext": "vinext build",
     "start": "next start"
   },
   "dependencies": {
     "next": "16.2.6",
     "react": "19.2.6",
-    "react-dom": "19.2.6",
-    "vinext": "1.0.0-beta.3",
-    "vite": "8.0.13"
+    "react-dom": "19.2.6"
   },
   "devDependencies": {
     "@types/node": "22.19.19",
