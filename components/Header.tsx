@@ -34,6 +34,10 @@ export default function Header({
     if (pathname === '/') {
       if (typeof window !== 'undefined') {
         window.history.replaceState(null, '', '/');
+        const feedCol = document.querySelector('.center-feed-col');
+        if (feedCol) {
+          feedCol.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } else {
@@ -50,39 +54,43 @@ export default function Header({
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        width: '100%'
+        width: '100%',
+        flexShrink: 0
       }}
     >
       <div
         style={{
           maxWidth: '1280px',
           margin: '0 auto',
-          padding: '10px 16px',
+          padding: '8px 16px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '16px'
+          gap: '16px',
+          boxSizing: 'border-box'
         }}
       >
-        {/* 1. Left: Brand Identity (36 Bangla Logo & Tagline) */}
+        {/* 1. Left: Official Brand Logo & Tagline */}
         <div style={{ flexShrink: 0 }}>
           <Link
             href="/"
             onClick={handleLogoClick}
-            style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', cursor: 'pointer', gap: '3px' }}
+            style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', cursor: 'pointer', gap: '2px' }}
             title="36 Bangla — হোমপেজে যান"
           >
-            <img
-              src="/logo.png"
-              alt="36 Bangla"
-              style={{
-                height: '32px',
-                width: 'auto',
-                objectFit: 'contain',
-                display: 'block'
-              }}
-            />
-            <span style={{ fontSize: '11px', fontWeight: 500, color: '#64748b', lineHeight: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img
+                src="/logo.png?v=3"
+                alt="36 Bangla"
+                style={{
+                  height: '38px',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  display: 'block'
+                }}
+              />
+            </div>
+            <span style={{ fontSize: '10.5px', fontWeight: 500, color: '#64748b', lineHeight: 1 }}>
               জনগণের কথা, স্বচ্ছ বাংলাদেশের জন্য
             </span>
           </Link>
@@ -90,7 +98,7 @@ export default function Header({
 
         {/* 2. Center: Search Bar with Division Filter */}
         {onSearchChange && (
-          <div style={{ flex: 1, maxWidth: '580px', display: 'flex', alignItems: 'center' }}>
+          <div style={{ flex: 1, maxWidth: '560px', display: 'flex', alignItems: 'center' }}>
             <div
               style={{
                 width: '100%',
@@ -168,7 +176,7 @@ export default function Header({
           </div>
         )}
 
-        {/* 3. Right: Notification Bell & + অভিযোগ করুন Button (No user account) */}
+        {/* 3. Right: Notification Bell & + অভিযোগ করুন Button */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
           {/* Notification Bell */}
           <button

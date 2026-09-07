@@ -197,7 +197,7 @@ export default function HomePage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f4f6fb', display: 'flex', flexDirection: 'column' }}>
+    <div className="app-viewport-shell">
       {/* 1. Clean White Sticky Header */}
       <Header
         onOpenReport={() => handleOpenComposer('BRIBE')}
@@ -212,16 +212,14 @@ export default function HomePage() {
         onSelectDivision={setSelectedDivision}
       />
 
-      {/* 2. Top Category Pills Filter Bar (Sticky below Header) */}
+      {/* 2. Top Category Pills Filter Bar (Frozen right below Header) */}
       <div
         style={{
           backgroundColor: '#f4f6fb',
-          borderBottom: '1px solid #e9ecef',
-          paddingTop: '8px',
-          paddingBottom: '4px',
-          position: 'sticky',
-          top: '56px',
-          zIndex: 40
+          borderBottom: '1px solid #e2e8f0',
+          paddingTop: '6px',
+          paddingBottom: '6px',
+          flexShrink: 0
         }}
       >
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 16px' }}>
@@ -232,142 +230,137 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 3. Main 3-Column Grid Container */}
-      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '16px', flex: 1, width: '100%', boxSizing: 'border-box' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '20px',
-            alignItems: 'start'
-          }}
-          className="main-grid-layout"
-        >
-          {/* Left Column: Navigation & Trending Topics (Sticky) */}
-          <div className="left-sidebar-col no-scrollbar" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <SidebarNavigation
-              onSelectTopic={(topic) => {
-                setSearchQuery(topic);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            />
-          </div>
-
-          {/* Center Column: Main Feed Composer & Post Cards */}
-          <div className="center-feed-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {/* Feed Composer Box */}
-            <FeedComposer
-              onOpenComposer={handleOpenComposer}
-              onSubmitQuickPost={handleQuickPost}
-            />
-
-            {/* Success Toast */}
-            {successToast && (
-              <div
-                style={{
-                  backgroundColor: '#ecfdf5',
-                  border: '1px solid #a7f3d0',
-                  color: '#065f46',
-                  padding: '12px 16px',
-                  borderRadius: '14px',
-                  fontSize: '13px',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span>✓</span>
-                  <span>{successToast}</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSuccessToast(null)}
-                  style={{ background: 'transparent', border: 'none', color: '#059669', cursor: 'pointer', padding: '2px' }}
-                >
-                  ✕
-                </button>
-              </div>
-            )}
-
-            {/* Feed Posts List */}
-            {filteredReports.length === 0 ? (
-              <div
-                style={{
-                  backgroundColor: '#ffffff',
-                  borderRadius: '18px',
-                  padding: '36px',
-                  textAlign: 'center',
-                  border: '1px solid #e2e8f0',
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '12px'
-                }}
-              >
-                <div
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '9999px',
-                    backgroundColor: '#eef2ff',
-                    color: '#5b3cf5',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '20px'
-                  }}
-                >
-                  🔍
-                </div>
-                <h4 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: 0 }}>কোনো অভিযোগ পাওয়া যায়নি</h4>
-                <p style={{ fontSize: '13px', color: '#64748b', maxWidth: '360px', margin: 0 }}>
-                  আপনার অনুসন্ধান ফিল্টারের সাথে মিলে এমন কোনো পোস্ট পাওয়া যায়নি। ফিল্টার রিসেট করুন।
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveCategory('ALL');
-                    setSelectedDivision('ALL');
-                    setSearchQuery('');
-                  }}
-                  style={{
-                    padding: '8px 18px',
-                    borderRadius: '10px',
-                    backgroundColor: '#5b3cf5',
-                    color: '#ffffff',
-                    fontSize: '13px',
-                    fontWeight: 700,
-                    border: 'none',
-                    cursor: 'pointer',
-                    marginTop: '4px'
-                  }}
-                >
-                  ফিল্টার রিসেট করুন
-                </button>
-              </div>
-            ) : (
-              filteredReports.map((report) => (
-                <NewsfeedCard
-                  key={report.id}
-                  report={report}
-                  comments={comments}
-                  userTruthVote={store?.userTruthVotes?.[report.id]}
-                  onTruthVote={handleTruthVote}
-                  onAddComment={handleAddComment}
-                />
-              ))
-            )}
-          </div>
-
-          {/* Right Column: Ledger Summary, Hotlines, Citizen Banner (Sticky) */}
-          <div className="right-sidebar-col no-scrollbar" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <TrendingSidebar />
-          </div>
+      {/* 3. Main 3-Column Container (Frozen sidebars + Scrollable middle feed) */}
+      <main className="main-layout-container">
+        
+        {/* Left Column: Navigation & Trending Topics (Frozen) */}
+        <div className="left-sidebar-col no-scrollbar">
+          <SidebarNavigation
+            onSelectTopic={(topic) => {
+              setSearchQuery(topic);
+              const feedCol = document.querySelector('.center-feed-col');
+              if (feedCol) {
+                feedCol.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+          />
         </div>
+
+        {/* Center Column: Main Feed Composer & Post Cards (THE ONLY SCROLLING AREA) */}
+        <div className="center-feed-col no-scrollbar">
+          {/* Feed Composer Box */}
+          <FeedComposer
+            onOpenComposer={handleOpenComposer}
+            onSubmitQuickPost={handleQuickPost}
+          />
+
+          {/* Success Toast */}
+          {successToast && (
+            <div
+              style={{
+                backgroundColor: '#ecfdf5',
+                border: '1px solid #a7f3d0',
+                color: '#065f46',
+                padding: '12px 16px',
+                borderRadius: '14px',
+                fontSize: '13px',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>✓</span>
+                <span>{successToast}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSuccessToast(null)}
+                style={{ background: 'transparent', border: 'none', color: '#059669', cursor: 'pointer', padding: '2px' }}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {/* Feed Posts List */}
+          {filteredReports.length === 0 ? (
+            <div
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '18px',
+                padding: '36px',
+                textAlign: 'center',
+                border: '1px solid #e2e8f0',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '12px'
+              }}
+            >
+              <div
+                style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '9999px',
+                  backgroundColor: '#eef2ff',
+                  color: '#5b3cf5',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '20px'
+                }}
+              >
+                🔍
+              </div>
+              <h4 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: 0 }}>কোনো অভিযোগ পাওয়া যায়নি</h4>
+              <p style={{ fontSize: '13px', color: '#64748b', maxWidth: '360px', margin: 0 }}>
+                আপনার অনুসন্ধান ফিল্টারের সাথে মিলে এমন কোনো পোস্ট পাওয়া যায়নি। ফিল্টার রিসেট করুন।
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveCategory('ALL');
+                  setSelectedDivision('ALL');
+                  setSearchQuery('');
+                }}
+                style={{
+                  padding: '8px 18px',
+                  borderRadius: '10px',
+                  backgroundColor: '#5b3cf5',
+                  color: '#ffffff',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  border: 'none',
+                  cursor: 'pointer',
+                  marginTop: '4px'
+                }}
+              >
+                ফিল্টার রিসেট করুন
+              </button>
+            </div>
+          ) : (
+            filteredReports.map((report) => (
+              <NewsfeedCard
+                key={report.id}
+                report={report}
+                comments={comments}
+                userTruthVote={store?.userTruthVotes?.[report.id]}
+                onTruthVote={handleTruthVote}
+                onAddComment={handleAddComment}
+              />
+            ))
+          )}
+        </div>
+
+        {/* Right Column: Ledger Summary, Hotlines, Citizen Banner (Frozen) */}
+        <div className="right-sidebar-col no-scrollbar">
+          <TrendingSidebar />
+        </div>
+
       </main>
 
       {/* Report Modal */}

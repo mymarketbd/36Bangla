@@ -26,7 +26,14 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scrollbar */
+@media (min-width: 1024px) {
+  html, body {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -60,37 +67,85 @@ html, body {
   animation: fadeIn 0.25s ease-out forwards;
 }
 
-/* 3-Column Grid System with Sticky Sidebars */
-.main-grid-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  align-items: start;
+/* 3-Column App Shell: Fixed Header/Sidebars + Scrollable Middle Feed */
+.app-viewport-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f6fb;
 }
 
 @media (min-width: 1024px) {
-  .main-grid-layout {
+  .app-viewport-shell {
+    height: 100vh;
+    overflow: hidden;
+  }
+  .main-layout-container {
+    height: calc(100vh - 108px) !important;
+    overflow: hidden !important;
+    display: grid !important;
     grid-template-columns: 260px 1fr 320px !important;
+    gap: 20px !important;
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 12px 16px 0 16px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
   }
   .left-sidebar-col {
-    position: sticky !important;
-    top: 114px !important;
-    max-height: calc(100vh - 126px);
-    overflow-y: auto;
-    align-self: start;
+    height: 100% !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    padding-bottom: 24px !important;
+  }
+  .center-feed-col {
+    height: 100% !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    padding-right: 4px !important;
+    padding-bottom: 40px !important;
   }
   .right-sidebar-col {
-    position: sticky !important;
-    top: 114px !important;
-    max-height: calc(100vh - 126px);
-    overflow-y: auto;
-    align-self: start;
+    height: 100% !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    padding-bottom: 24px !important;
   }
 }
 
 @media (max-width: 1023px) {
+  .app-viewport-shell {
+    height: auto;
+    overflow: visible;
+  }
+  .main-layout-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
   .left-sidebar-col {
     display: none !important;
+  }
+  .center-feed-col {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .right-sidebar-col {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 }
 
