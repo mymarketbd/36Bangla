@@ -2,35 +2,21 @@
 
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import CategoryPills from '@/components/CategoryPills';
 import FeedComposer from '@/components/FeedComposer';
 import NewsfeedCard from '@/components/NewsfeedCard';
 import SidebarNavigation from '@/components/SidebarNavigation';
 import TrendingSidebar from '@/components/TrendingSidebar';
 import ReportModal from '@/components/ReportModal';
 import WhitelistModal from '@/components/WhitelistModal';
-import DistributionChart from '@/components/DistributionChart';
 import { loadStore, saveStore, Bangla36State } from '@/lib/store';
 import { Division, IncidentCategory, BribeReport } from '@/lib/types';
-import {
-  ShieldCheckIcon,
-  CloseIcon,
-  CheckIcon,
-  FeedIcon,
-  PenIcon,
-  SearchIcon,
-  BribeIcon,
-  HospitalIcon,
-  ExtortionIcon,
-  UniversityIcon
-} from '@/components/Icons';
 
 export default function HomePage() {
   const [store, setStore] = useState<Bangla36State | null>(null);
-  const [activeCategory, setActiveCategory] = useState<IncidentCategory | 'ALL'>('ALL');
+  const [activeCategory, setActiveCategory] = useState<IncidentCategory | 'ALL' | string>('ALL');
   const [selectedDivision, setSelectedDivision] = useState<Division | 'ALL'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
-  const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isWhitelistModalOpen, setIsWhitelistModalOpen] = useState(false);
   const [modalCategory, setModalCategory] = useState<IncidentCategory>('BRIBE');
@@ -54,37 +40,38 @@ export default function HomePage() {
 
   const reports = store?.reports || [];
   const comments = store?.comments || [];
-  const userTruthVotes = store?.userTruthVotes || {};
 
   // Filter Reports
   const approvedReports = reports.filter((r) => r.moderationStatus === 'APPROVED');
 
-  const counts = {
-    all: approvedReports.length,
-    bribe: approvedReports.filter((r) => !r.category || r.category === 'BRIBE').length,
-    hospital: approvedReports.filter((r) => r.category === 'HOSPITAL').length,
-    extortion: approvedReports.filter((r) => r.category === 'EXTORTION').length,
-    university: approvedReports.filter((r) => r.category === 'UNIVERSITY').length
-  };
-
   const filteredReports = approvedReports.filter((r) => {
-    const reportCat = r.category || 'BRIBE';
-    const matchCategory = activeCategory === 'ALL' || reportCat === activeCategory;
+    // Category match
+    let matchCategory = true;
+    if (activeCategory !== 'ALL') {
+      if (activeCategory === 'BRIBE') matchCategory = r.category === 'BRIBE';
+      else if (activeCategory === 'HOSPITAL') matchCategory = r.category === 'HOSPITAL';
+      else if (activeCategory === 'EXTORTION') matchCategory = r.category === 'EXTORTION';
+      else if (activeCategory === 'UNIVERSITY') matchCategory = r.category === 'UNIVERSITY';
+      else if (activeCategory === 'LAND') matchCategory = r.department.includes('ভূমি');
+      else if (activeCategory === 'OTHER') matchCategory = !['BRIBE', 'HOSPITAL', 'EXTORTION', 'UNIVERSITY'].includes(r.category || '') && !r.department.includes('ভূমি');
+    }
+
+    // Division match
     const matchDiv = selectedDivision === 'ALL' || r.division === selectedDivision;
-    const matchVerified = !verifiedOnly || r.isVerified;
+
+    // Search query match
     const matchSearch =
       !searchQuery.trim() ||
-      r.officeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.district.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.service.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (r.officeName && r.officeName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (r.district && r.district.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (r.service && r.service.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (r.description && r.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (r.hospitalSection && r.hospitalSection.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (r.extortionSpot && r.extortionSpot.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (r.universityName && r.universityName.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (r.universityDeptHall && r.universityDeptHall.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (r.officerName && r.officerName.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    return matchCategory && matchDiv && matchVerified && matchSearch;
+    return matchCategory && matchDiv && matchSearch;
   });
 
   // Truth / False Voting Handler
@@ -100,18 +87,19 @@ export default function HomePage() {
         let falseVotes = r.falseVotesCount || 0;
 
         if (currentVote === voteType) {
-          // Already recorded as this vote type
-          return r;
+          // Unvote
+          if (voteType === 'TRUE') trueVotes = Math.max(0, trueVotes - 1);
+          if (voteType === 'FALSE') falseVotes = Math.max(0, falseVotes - 1);
+          delete nextTruthVotes[reportId];
+        } else {
+          // Switch or new vote
+          if (currentVote === 'TRUE') trueVotes = Math.max(0, trueVotes - 1);
+          if (currentVote === 'FALSE') falseVotes = Math.max(0, falseVotes - 1);
+
+          if (voteType === 'TRUE') trueVotes += 1;
+          if (voteType === 'FALSE') falseVotes += 1;
+          nextTruthVotes[reportId] = voteType;
         }
-
-        // Switch or new vote
-        if (currentVote === 'TRUE') trueVotes = Math.max(0, trueVotes - 1);
-        if (currentVote === 'FALSE') falseVotes = Math.max(0, falseVotes - 1);
-
-        if (voteType === 'TRUE') trueVotes += 1;
-        if (voteType === 'FALSE') falseVotes += 1;
-
-        nextTruthVotes[reportId] = voteType;
 
         return {
           ...r,
@@ -149,6 +137,39 @@ export default function HomePage() {
     setIsReportModalOpen(true);
   };
 
+  const handleQuickPost = (text: string) => {
+    const newReport: BribeReport = {
+      id: 'rep-' + Date.now(),
+      category: 'BRIBE',
+      department: 'অন্যান্য সরকারি দপ্তর ও খাত',
+      service: 'নাগরিক প্রত্যক্ষ অনিয়ম অভিযোগ',
+      division: selectedDivision !== 'ALL' ? selectedDivision : 'Dhaka',
+      district: 'ঢাকা',
+      officeName: 'নাগরিক অভিযোগ',
+      amount: 0,
+      outcome: 'PENDING',
+      description: text,
+      evidenceFiles: [],
+      confirmationsCount: 1,
+      trueVotesCount: 1,
+      falseVotesCount: 0,
+      commentsCount: 0,
+      sharesCount: 0,
+      authorName: 'বেনামী নাগরিক',
+      isVerified: false,
+      moderationStatus: 'APPROVED',
+      createdAt: new Date().toISOString()
+    };
+
+    updateStore((prev) => ({
+      ...prev,
+      reports: [newReport, ...prev.reports]
+    }));
+
+    setSuccessToast('আপনার অভিযোগটি সফলভাবে নিউজফিডে পোস্ট হয়েছে।');
+    setTimeout(() => setSuccessToast(null), 4000);
+  };
+
   const handleNewReportSubmit = (data: any) => {
     const newReport: BribeReport = {
       id: 'rep-' + Date.now(),
@@ -176,132 +197,120 @@ export default function HomePage() {
   };
 
   return (
-    <div className="h-screen bg-[#f0f2f5] text-slate-900 flex flex-col font-sans antialiased selection:bg-purple-600 selection:text-white overflow-hidden">
-      {/* 1. Fixed Header with Integrated Filter Bar */}
+    <div className="min-h-screen bg-[#F4F6FB] text-slate-900 flex flex-col font-sans antialiased selection:bg-[#4F46E5] selection:text-white">
+      {/* 1. Clean White Sticky Header */}
       <Header
         onOpenReport={() => handleOpenComposer('BRIBE')}
-        onOpenWhitelist={() => setIsWhitelistModalOpen(true)}
         onResetHome={() => {
           setActiveCategory('ALL');
           setSearchQuery('');
           setSelectedDivision('ALL');
-          setVerifiedOnly(false);
         }}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
-        activeCategory={activeCategory}
-        onSelectCategory={setActiveCategory}
         selectedDivision={selectedDivision}
         onSelectDivision={setSelectedDivision}
-        verifiedOnly={verifiedOnly}
-        onToggleVerified={() => setVerifiedOnly(!verifiedOnly)}
-        counts={counts}
-        totalFilteredCount={filteredReports.length}
       />
 
-      {/* 2. Main 12-Column Responsive Layout (Stationary Sidebars + Scrollable Newsfeed) */}
-      <div
-        style={{
-          paddingTop: '18px',
-          paddingBottom: '18px'
-        }}
-        className="flex-1 overflow-hidden w-full"
-      >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(12, minmax(0, 1fr))',
-            gap: '15px'
-          }}
-          className="max-w-7xl w-full mx-auto h-full px-3 sm:px-4 md:px-6 overflow-hidden items-start"
-        >
-          {/* Left Column (3 of 12 Grids = 25%) - FIXED / STATIONARY */}
-          <aside
-            style={{ minWidth: 0 }}
-            className="sidebar-left-col h-full overflow-y-auto overflow-x-hidden scrollbar-none pb-20 pt-1.5 space-y-[15px]"
-          >
-            <SidebarNavigation
-              activeCategory={activeCategory}
-              onSelectCategory={setActiveCategory}
-              counts={counts}
-            />
-          </aside>
+      {/* 2. Top Category Pills Filter Bar */}
+      <div className="bg-[#F4F6FB] border-b border-slate-200/50 pt-2 pb-1">
+        <div className="max-w-7xl mx-auto px-4">
+          <CategoryPills
+            activeCategory={activeCategory}
+            onSelectCategory={setActiveCategory}
+          />
+        </div>
+      </div>
 
-          {/* Center Newsfeed Column (6 of 12 Grids = 50%) - ONLY THIS NEWSFEED SCROLLS! */}
-          <div
-            style={{ minWidth: 0 }}
-            className="newsfeed-center-col h-full overflow-y-auto scrollbar-none px-1 pt-1.5 space-y-[15px] pb-32"
-          >
-            {/* Success Alert Toast */}
+      {/* 3. Main 3-Column Grid Container */}
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-5 flex-1 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          
+          {/* Left Column: Navigation & Trending Topics (3 Cols) */}
+          <div className="hidden lg:block lg:col-span-3 sticky top-20">
+            <SidebarNavigation
+              onSelectTopic={(topic) => {
+                setSearchQuery(topic);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
+          </div>
+
+          {/* Center Column: Main Feed Composer & Post Cards (6 Cols) */}
+          <div className="col-span-1 lg:col-span-6 space-y-4">
+            
+            {/* Feed Composer Box */}
+            <FeedComposer
+              onOpenComposer={handleOpenComposer}
+              onSubmitQuickPost={handleQuickPost}
+            />
+
+            {/* Success Toast */}
             {successToast && (
-              <div className="bg-blue-50 border border-blue-200 text-blue-800 p-3.5 rounded-2xl text-xs font-normal flex items-center justify-between shadow-xs">
+              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-between shadow-xs animate-fade-in">
                 <div className="flex items-center gap-2">
-                  <CheckIcon size={14} className="text-blue-600" />
+                  <span>✓</span>
                   <span>{successToast}</span>
                 </div>
-                <button onClick={() => setSuccessToast(null)} style={{ border: 'none' }} className="text-slate-500 hover:text-slate-800 p-1 cursor-pointer">
-                  <CloseIcon size={12} />
+                <button
+                  type="button"
+                  onClick={() => setSuccessToast(null)}
+                  className="text-emerald-600 hover:text-emerald-900 p-0.5 cursor-pointer"
+                >
+                  ✕
                 </button>
               </div>
             )}
 
-            {/* Anonymous Post Composer (At Top of Feed Column) */}
-            <FeedComposer onOpenComposer={handleOpenComposer} />
-
-            {/* Newsfeed Posts Stream */}
-            <div className="space-y-[18px]">
-              {filteredReports.length > 0 ? (
-                filteredReports.map((report) => (
-                  <NewsfeedCard
-                    key={report.id}
-                    report={report}
-                    comments={comments}
-                    userTruthVote={userTruthVotes[report.id]}
-                    onTruthVote={handleTruthVote}
-                    onAddComment={handleAddComment}
-                  />
-                ))
-              ) : (
-                <div className="bg-white rounded-2xl p-8 text-center space-y-3 shadow-xs">
-                  <div className="w-10 h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
-                    <FeedIcon size={20} />
-                  </div>
-                  <h3 className="font-bold text-sm sm:text-base text-slate-900">এই বিভাগে কোনো অভিযোগ পাওয়া যায়নি</h3>
-                  <p className="text-xs text-slate-500 font-normal max-w-sm mx-auto leading-relaxed">
-                    আপনার কোনো অভিজ্ঞতা বা অভিযোগ থাকলে তথ্য ও ছবি দিয়ে প্রথম পোস্টটি করুন।
-                  </p>
-                  <button
-                    onClick={() => handleOpenComposer(activeCategory === 'ALL' ? 'BRIBE' : activeCategory)}
-                    style={{ border: 'none', background: 'linear-gradient(135deg, #633ef8, #5027eb)', color: '#ffffff', boxShadow: '0 3px 12px rgba(80, 39, 235, 0.3)' }}
-                    className="hover:opacity-95 px-5 py-2.5 rounded-full text-xs font-bold mt-2 inline-flex items-center gap-1.5 cursor-pointer shadow-xs transition"
-                  >
-                    <PenIcon size={12} className="text-white" />
-                    <span>নতুন অভিযোগ পোস্ট করুন</span>
-                  </button>
+            {/* Feed Posts List */}
+            {filteredReports.length === 0 ? (
+              <div className="bg-white rounded-2xl p-8 text-center border border-slate-200/70 shadow-xs space-y-3">
+                <div className="w-12 h-12 rounded-full bg-indigo-50 text-[#4F46E5] mx-auto flex items-center justify-center text-xl">
+                  🔍
                 </div>
-              )}
-            </div>
+                <h4 className="text-base font-bold text-slate-900">কোনো অভিযোগ পাওয়া যায়নি</h4>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  আপনার অনুসন্ধান ফিল্টারের সাথে মিলে এমন কোনো পোস্ট পাওয়া যায়নি। ফিল্টার রিসেট করুন।
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveCategory('ALL');
+                    setSelectedDivision('ALL');
+                    setSearchQuery('');
+                  }}
+                  className="px-4 py-1.5 rounded-xl bg-[#4F46E5] text-white text-xs font-semibold hover:bg-[#4338CA] transition cursor-pointer"
+                >
+                  ফিল্টার রিসেট করুন
+                </button>
+              </div>
+            ) : (
+              filteredReports.map((report) => (
+                <NewsfeedCard
+                  key={report.id}
+                  report={report}
+                  comments={comments}
+                  userTruthVote={store?.userTruthVotes?.[report.id]}
+                  onTruthVote={handleTruthVote}
+                  onAddComment={handleAddComment}
+                />
+              ))
+            )}
           </div>
 
-          {/* Right Column (3 of 12 Grids = 25%) - FIXED / STATIONARY */}
-          <aside
-            style={{ minWidth: 0 }}
-            className="sidebar-right-col h-full overflow-y-auto overflow-x-hidden scrollbar-none pb-16 space-y-[15px]"
-          >
-            <TrendingSidebar
-              reports={approvedReports}
-              activeCategory={activeCategory}
-              onSelectCategory={setActiveCategory}
-            />
-          </aside>
-        </div>
-      </div>
+          {/* Right Column: Ledger Summary, Hotlines, Citizen Banner (3 Cols) */}
+          <div className="col-span-1 lg:col-span-3 space-y-4">
+            <TrendingSidebar />
+          </div>
 
-      {/* Modals */}
+        </div>
+      </main>
+
+      {/* Report Modal */}
       {isReportModalOpen && (
         <ReportModal
           initialCategory={modalCategory}
-          initialPhoto={modalPhoto}
+          preloadedImage={modalPhoto}
           onClose={() => {
             setIsReportModalOpen(false);
             setModalPhoto('');
@@ -310,14 +319,31 @@ export default function HomePage() {
         />
       )}
 
+      {/* Whitelist Modal */}
       {isWhitelistModalOpen && (
         <WhitelistModal
           onClose={() => setIsWhitelistModalOpen(false)}
-          onSubmit={() => setIsWhitelistModalOpen(false)}
+          onSubmit={(data) => {
+            updateStore((prev) => ({
+              ...prev,
+              whitelist: [
+                {
+                  id: 'w-' + Date.now(),
+                  ...data,
+                  upvotesCount: 1,
+                  isVerified: true,
+                  moderationStatus: 'APPROVED',
+                  createdAt: new Date().toISOString()
+                },
+                ...prev.whitelist
+              ]
+            }));
+            setIsWhitelistModalOpen(false);
+            setSuccessToast('সৎ কর্মকর্তা/দপ্তরের তথ্য সফলভাবে যুক্ত হয়েছে।');
+            setTimeout(() => setSuccessToast(null), 4000);
+          }}
         />
       )}
     </div>
   );
 }
-
-

@@ -1,6 +1,33 @@
 import { BribeReport, WhitelistOffice, FeatureRequestItem, DistrictSummary } from './types';
 
 export const initialBribeReports: BribeReport[] = [
+  {
+    id: 'rep-du-1',
+    category: 'UNIVERSITY',
+    department: 'পাবলিক বিশ্ববিদ্যালয় ও শিক্ষা',
+    service: 'ঢাকা বিশ্ববিদ্যালয় (DU)',
+    division: 'Dhaka',
+    district: 'ঢাকা',
+    subDistrict: 'শাহবাগ',
+    officeName: 'বিশ্ববিদ্যালয় দুর্নীতি প্রতিরোধ সেল',
+    locationDetails: 'কার্জন হল ও আবাসিক হলসমূহ, ঢাকা বিশ্ববিদ্যালয়',
+    amount: 5000,
+    outcome: 'PAID',
+    authorName: 'বিশ্ববিদ্যালয় দুর্নীতি প্রতিরোধ সেল',
+    authorHandle: '@du_anticorruption',
+    spotPhotoUrl: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&h=675&auto=format&fit=crop&q=80',
+    images: ['https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&h=675&auto=format&fit=crop&q=80'],
+    description: 'প্রভোস্ট অফিস থেকে বৈধ সিট পাওয়ার কোনো নিয়ম নেই। হলে একটি ফ্লোর নেড়ে থাকার জন্য এককালীন ৫,০০০ টাকা এবং প্রতি মাসে ১,০০০ টাকা অবৈধ সিট ভাড়া দিতে বাধ্য করা হচ্ছে...',
+    evidenceFiles: [],
+    confirmationsCount: 268,
+    trueVotesCount: 268,
+    falseVotesCount: 12,
+    commentsCount: 1,
+    sharesCount: 18,
+    isVerified: true,
+    moderationStatus: 'APPROVED',
+    createdAt: '2026-09-06T10:00:00Z'
+  },
   // ==========================================
   // 1. 💰 ঘুষ লেজার (BRIBE POSTS)
   // ==========================================
