@@ -23,7 +23,6 @@ html, body {
   background-color: #f4f6fb !important;
   color: #0f172a !important;
   font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -61,7 +60,7 @@ html, body {
   animation: fadeIn 0.25s ease-out forwards;
 }
 
-/* 3-Column Grid System */
+/* 3-Column Grid System with Sticky Sidebars */
 .main-grid-layout {
   display: grid;
   grid-template-columns: 1fr;
@@ -74,12 +73,18 @@ html, body {
     grid-template-columns: 260px 1fr 320px !important;
   }
   .left-sidebar-col {
-    position: sticky;
-    top: 76px;
+    position: sticky !important;
+    top: 114px !important;
+    max-height: calc(100vh - 126px);
+    overflow-y: auto;
+    align-self: start;
   }
   .right-sidebar-col {
-    position: sticky;
-    top: 76px;
+    position: sticky !important;
+    top: 114px !important;
+    max-height: calc(100vh - 126px);
+    overflow-y: auto;
+    align-self: start;
   }
 }
 

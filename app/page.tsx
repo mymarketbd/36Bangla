@@ -212,8 +212,18 @@ export default function HomePage() {
         onSelectDivision={setSelectedDivision}
       />
 
-      {/* 2. Top Category Pills Filter Bar */}
-      <div style={{ backgroundColor: '#f4f6fb', borderBottom: '1px solid #e9ecef', paddingTop: '8px', paddingBottom: '4px' }}>
+      {/* 2. Top Category Pills Filter Bar (Sticky below Header) */}
+      <div
+        style={{
+          backgroundColor: '#f4f6fb',
+          borderBottom: '1px solid #e9ecef',
+          paddingTop: '8px',
+          paddingBottom: '4px',
+          position: 'sticky',
+          top: '56px',
+          zIndex: 40
+        }}
+      >
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 16px' }}>
           <CategoryPills
             activeCategory={activeCategory}
@@ -233,8 +243,8 @@ export default function HomePage() {
           }}
           className="main-grid-layout"
         >
-          {/* Left Column: Navigation & Trending Topics */}
-          <div className="left-sidebar-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Left Column: Navigation & Trending Topics (Sticky) */}
+          <div className="left-sidebar-col no-scrollbar" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <SidebarNavigation
               onSelectTopic={(topic) => {
                 setSearchQuery(topic);
@@ -353,8 +363,8 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* Right Column: Ledger Summary, Hotlines, Citizen Banner */}
-          <div className="right-sidebar-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Right Column: Ledger Summary, Hotlines, Citizen Banner (Sticky) */}
+          <div className="right-sidebar-col no-scrollbar" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <TrendingSidebar />
           </div>
         </div>

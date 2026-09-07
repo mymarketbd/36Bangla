@@ -69,18 +69,20 @@ export default function Header({
           <Link
             href="/"
             onClick={handleLogoClick}
-            style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', cursor: 'pointer' }}
+            style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', cursor: 'pointer', gap: '3px' }}
             title="36 Bangla — হোমপেজে যান"
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', lineHeight: 1 }}>
-              <span style={{ fontSize: '26px', fontWeight: 900, color: '#5b3cf5', letterSpacing: '-0.5px' }}>
-                36
-              </span>
-              <span style={{ fontSize: '22px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.5px' }}>
-                Bangla
-              </span>
-            </div>
-            <span style={{ fontSize: '11px', fontWeight: 500, color: '#64748b', marginTop: '2px' }}>
+            <img
+              src="/logo.png"
+              alt="36 Bangla"
+              style={{
+                height: '32px',
+                width: 'auto',
+                objectFit: 'contain',
+                display: 'block'
+              }}
+            />
+            <span style={{ fontSize: '11px', fontWeight: 500, color: '#64748b', lineHeight: 1 }}>
               জনগণের কথা, স্বচ্ছ বাংলাদেশের জন্য
             </span>
           </Link>
