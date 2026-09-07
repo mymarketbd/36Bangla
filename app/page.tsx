@@ -27,15 +27,12 @@ import {
 
 export default function HomePage() {
   const [store, setStore] = useState<Bangla36State | null>(null);
+  const [activeCategory, setActiveCategory] = useState<IncidentCategory | 'ALL'>('ALL');
   const [selectedDivision, setSelectedDivision] = useState<Division | 'ALL'>('ALL');
-  const [selectedCategory, setSelectedCategory] = useState<IncidentCategory | 'ALL'>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<'latest' | 'top_bribe' | 'most_confirmed' | 'most_voted'>('latest');
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isWhitelistModalOpen, setIsWhitelistModalOpen] = useState(false);
-  const [filterDepartment, setFilterDepartment] = useState<string>('ALL');
-  const [feedTab, setFeedTab] = useState<'FOR_YOU' | 'EXPLORE' | 'VERIFIED' | 'TRENDING' | 'CONFIRMED'>('FOR_YOU');
-  const [quickPostContent, setQuickPostContent] = useState('');
   const [modalCategory, setModalCategory] = useState<IncidentCategory>('BRIBE');
   const [modalPhoto, setModalPhoto] = useState<string>('');
   const [successToast, setSuccessToast] = useState<string | null>(null);

@@ -31,7 +31,7 @@ const departmentsList: DepartmentCategory[] = [
   'হাসপাতাল ও স্বাস্থ্যসেবা',
   'পৌরসভা ও সিটি কর্পোরেশন',
   'বিদ্যুৎ, গ্যাস ও তিতাস',
-  'অন্যান্য সরকারি দপ্তর'
+  'অন্যান্য সরকারি দপ্তর ও খাত'
 ];
 
 export default function WhitelistModal({ onClose, onSubmit }: WhitelistModalProps) {

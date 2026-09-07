@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { BribeReport } from '@/lib/types';
+import { BribeReport, IncidentCategory } from '@/lib/types';
 import DistributionChart from './DistributionChart';
 import { toBn } from '@/lib/format';
 import {
