@@ -11,7 +11,7 @@ export interface Bangla36State {
   userTruthVotes: { [reportId: string]: 'TRUE' | 'FALSE' }; // সত্য vs মিথ্যা voting tracking
 }
 
-const STORAGE_KEY = 'bangla36_platform_state_v1';
+const STORAGE_KEY = 'bangla36_platform_state_v2';
 
 export function getInitialState(): Bangla36State {
   return {
