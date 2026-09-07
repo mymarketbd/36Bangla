@@ -9,124 +9,262 @@ export default function TrendingSidebar() {
       name: 'দুদক',
       desc: 'দুর্নীতি ও অভিযোগ',
       phone: '106',
+      iconBg: '#eff6ff',
+      iconColor: '#3b82f6',
       icon: (
-        <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-        </div>
+        <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
       )
     },
     {
-      name: 'জাতীয় জরুরি সেবা',
-      desc: 'পুলিশ, অ্যাম্বুলেন্স ও ফায়ার সার্ভিস',
+      name: 'জাতীয় জরুরি সেবা',
+      desc: 'পুলিশ, অ্যাম্বুলেন্স ও ফায়ার সার্ভিস',
       phone: '999',
+      iconBg: '#fef2f2',
+      iconColor: '#ef4444',
       icon: (
-        <div className="w-8 h-8 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-        </div>
+        <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
       )
     },
     {
-      name: 'স্বাস্থ্য বাতায়ন',
+      name: 'স্বাস্থ্য বাতায়ন',
       desc: 'হাসপাতাল সেবা ও তথ্য',
       phone: '16263',
+      iconBg: '#ecfdf5',
+      iconColor: '#10b981',
       icon: (
-        <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
+        <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       )
     }
   ];
 
   return (
-    <aside className="w-full space-y-4">
+    <aside style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
       {/* 1. স্বচ্ছতা লেজার (সারাংশ) - Transparency Ledger Summary Card */}
-      <div className="bg-white rounded-2xl p-4 shadow-xs border border-slate-200/70">
-        <div className="flex items-center justify-between mb-3.5">
-          <h3 className="text-sm font-bold text-slate-900">
+      <div
+        style={{
+          backgroundColor: '#ffffff',
+          borderRadius: '16px',
+          padding: '16px',
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 1px 4px rgba(0, 0, 0, 0.04)'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: 0 }}>
             স্বচ্ছতা লেজার (সারাংশ)
           </h3>
           <Link
             href="/analytics"
-            className="text-xs font-semibold text-[#4F46E5] hover:underline flex items-center gap-0.5"
+            style={{ fontSize: '12px', fontWeight: 600, color: '#5b3cf5', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '2px' }}
           >
             <span>সব দেখুন</span>
             <span>→</span>
           </Link>
         </div>
 
-        <div className="space-y-2.5">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {/* Stat 1: মোট অভিযোগ */}
-          <div className="bg-[#F8FAFC] border border-slate-100 p-3 rounded-xl flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-indigo-50 text-[#4F46E5] flex items-center justify-center shrink-0">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #f1f5f9',
+              padding: '10px 12px',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '10px',
+                  backgroundColor: '#eef2ff',
+                  color: '#5b3cf5',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0
+                }}
+              >
+                <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
               <div>
-                <p className="text-[11px] font-medium text-slate-500">মোট অভিযোগ</p>
-                <p className="text-sm font-bold text-slate-900">১২,৮৪০</p>
+                <p style={{ fontSize: '11px', fontWeight: 500, color: '#64748b', margin: 0 }}>মোট অভিযোগ</p>
+                <p style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: 0, marginTop: '2px' }}>১২,৮৪০</p>
               </div>
             </div>
-            <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: '#059669',
+                backgroundColor: '#ecfdf5',
+                padding: '3px 8px',
+                borderRadius: '6px',
+                border: '1px solid #d1fae5'
+              }}
+            >
               ↑ ১২%
             </span>
           </div>
 
           {/* Stat 2: দাবিকৃত অর্থ */}
-          <div className="bg-[#F8FAFC] border border-slate-100 p-3 rounded-xl flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 font-bold text-sm">
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #f1f5f9',
+              padding: '10px 12px',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '10px',
+                  backgroundColor: '#ecfdf5',
+                  color: '#059669',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '16px',
+                  fontWeight: 800,
+                  flexShrink: 0
+                }}
+              >
                 ৳
               </div>
               <div>
-                <p className="text-[11px] font-medium text-slate-500">দাবিকৃত অর্থ</p>
-                <p className="text-sm font-bold text-slate-900">৳ ১৮.৬০ লাখ</p>
+                <p style={{ fontSize: '11px', fontWeight: 500, color: '#64748b', margin: 0 }}>দাবিকৃত অর্থ</p>
+                <p style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: 0, marginTop: '2px' }}>৳ ১৮.৬০ লাখ</p>
               </div>
             </div>
-            <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: '#059669',
+                backgroundColor: '#ecfdf5',
+                padding: '3px 8px',
+                borderRadius: '6px',
+                border: '1px solid #d1fae5'
+              }}
+            >
               ↑ ৮%
             </span>
           </div>
 
           {/* Stat 3: সমাধান হয়েছে */}
-          <div className="bg-[#F8FAFC] border border-slate-100 p-3 rounded-xl flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #f1f5f9',
+              padding: '10px 12px',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '10px',
+                  backgroundColor: '#fff7ed',
+                  color: '#ea580c',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0
+                }}
+              >
+                <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
               <div>
-                <p className="text-[11px] font-medium text-slate-500">সমাধান হয়েছে</p>
-                <p className="text-sm font-bold text-slate-900">২,৯৪০</p>
+                <p style={{ fontSize: '11px', fontWeight: 500, color: '#64748b', margin: 0 }}>সমাধান হয়েছে</p>
+                <p style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: 0, marginTop: '2px' }}>২,৯৪০</p>
               </div>
             </div>
-            <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: '#059669',
+                backgroundColor: '#ecfdf5',
+                padding: '3px 8px',
+                borderRadius: '6px',
+                border: '1px solid #d1fae5'
+              }}
+            >
               ↑ ২৪%
             </span>
           </div>
 
           {/* Stat 4: চলমান রয়েছে */}
-          <div className="bg-[#F8FAFC] border border-slate-100 p-3 rounded-xl flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #f1f5f9',
+              padding: '10px 12px',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '10px',
+                  backgroundColor: '#fff1f2',
+                  color: '#e11d48',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0
+                }}
+              >
+                <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
               <div>
-                <p className="text-[11px] font-medium text-slate-500">চলমান রয়েছে</p>
-                <p className="text-sm font-bold text-slate-900">৮,৬৩০</p>
+                <p style={{ fontSize: '11px', fontWeight: 500, color: '#64748b', margin: 0 }}>চলমান রয়েছে</p>
+                <p style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: 0, marginTop: '2px' }}>৮,৬৩০</p>
               </div>
             </div>
-            <span className="text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md">
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: '#e11d48',
+                backgroundColor: '#fff1f2',
+                padding: '3px 8px',
+                borderRadius: '6px',
+                border: '1px solid #fecdd3'
+              }}
+            >
               ↓ ৫%
             </span>
           </div>
@@ -134,40 +272,83 @@ export default function TrendingSidebar() {
       </div>
 
       {/* 2. জরুরি সরকারি হটলাইন - Emergency Government Hotlines Card */}
-      <div className="bg-white rounded-2xl p-4 shadow-xs border border-slate-200/70">
-        <div className="flex items-center justify-between mb-3.5">
-          <h3 className="text-sm font-bold text-slate-900">
+      <div
+        style={{
+          backgroundColor: '#ffffff',
+          borderRadius: '16px',
+          padding: '16px',
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 1px 4px rgba(0, 0, 0, 0.04)'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: 0 }}>
             জরুরি সরকারি হটলাইন
           </h3>
           <Link
             href="/press"
-            className="text-xs font-semibold text-[#4F46E5] hover:underline flex items-center gap-0.5"
+            style={{ fontSize: '12px', fontWeight: 600, color: '#5b3cf5', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '2px' }}
           >
             <span>সব দেখুন</span>
             <span>→</span>
           </Link>
         </div>
 
-        <div className="space-y-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {hotlines.map((item, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-1.5 rounded-xl hover:bg-slate-50 transition"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '6px 8px',
+                borderRadius: '10px',
+                transition: 'background 0.15s ease'
+              }}
             >
-              <div className="flex items-center gap-2.5">
-                {item.icon}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '9999px',
+                    backgroundColor: item.iconBg,
+                    color: item.iconColor,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}
+                >
+                  {item.icon}
+                </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 leading-tight">
+                  <h4 style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a', margin: 0, lineHeight: 1.2 }}>
                     {item.name}
                   </h4>
-                  <p className="text-[10px] text-slate-400 font-normal mt-0.5">
+                  <p style={{ fontSize: '11px', color: '#64748b', margin: 0, marginTop: '2px' }}>
                     {item.desc}
                   </p>
                 </div>
               </div>
               <a
                 href={`tel:${item.phone}`}
-                className="flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-lg border border-emerald-200 transition"
+                className="hotline-btn"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  backgroundColor: '#ecfdf5',
+                  color: '#059669',
+                  border: '1px solid #a7f3d0',
+                  borderRadius: '9999px',
+                  padding: '5px 12px',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  textDecoration: 'none',
+                  flexShrink: 0
+                }}
               >
                 <span>📞</span>
                 <span>{item.phone}</span>
@@ -178,17 +359,40 @@ export default function TrendingSidebar() {
       </div>
 
       {/* 3. Inspirational Citizen Banner / Quote Card */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#EEF2FF] to-[#E0E7FF] rounded-2xl p-4 border border-indigo-100/80 shadow-xs flex items-center justify-between">
-        <div className="relative z-10 space-y-1">
-          <span className="text-xl font-serif text-[#4F46E5] leading-none">❝</span>
-          <p className="text-xs sm:text-[13px] font-bold text-slate-800 leading-snug">
+      <div
+        style={{
+          background: 'linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%)',
+          borderRadius: '16px',
+          padding: '16px 20px',
+          border: '1px solid #e0e7ff',
+          boxShadow: '0 1px 4px rgba(0, 0, 0, 0.04)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <span style={{ fontSize: '24px', color: '#5b3cf5', lineHeight: 1, fontFamily: 'serif' }}>❝</span>
+          <p style={{ fontSize: '13px', fontWeight: 700, color: '#1e293b', lineHeight: 1.4, margin: 0 }}>
             সচেতন নাগরিকই<br />
             গড়ে তোলে স্বচ্ছ বাংলাদেশ
           </p>
         </div>
 
         {/* Faint '36' Watermark graphic */}
-        <div className="text-5xl sm:text-6xl font-black text-indigo-300/40 select-none pointer-events-none font-sans tracking-tighter">
+        <div
+          style={{
+            fontSize: '56px',
+            fontWeight: 900,
+            color: 'rgba(91, 60, 245, 0.22)',
+            userSelect: 'none',
+            pointerEvents: 'none',
+            letterSpacing: '-2px',
+            lineHeight: 1
+          }}
+        >
           36
         </div>
       </div>

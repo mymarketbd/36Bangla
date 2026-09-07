@@ -23,8 +23,17 @@ export default function CategoryPills({
   onSelectCategory
 }: CategoryPillsProps) {
   return (
-    <div className="w-full py-2.5 overflow-x-auto no-scrollbar">
-      <div className="flex items-center justify-center gap-2 sm:gap-3 min-w-max px-2">
+    <div
+      style={{
+        width: '100%',
+        padding: '10px 0',
+        overflowX: 'auto',
+        display: 'flex',
+        justifyContent: 'center'
+      }}
+      className="no-scrollbar"
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 'max-content', padding: '0 8px' }}>
         {categoryOptions.map((cat) => {
           const isActive = activeCategory === cat.id;
           return (
@@ -32,11 +41,18 @@ export default function CategoryPills({
               key={cat.id}
               type="button"
               onClick={() => onSelectCategory(cat.id)}
-              className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition cursor-pointer select-none ${
-                isActive
-                  ? 'bg-[#4F46E5] text-white shadow-xs font-semibold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 bg-transparent'
-              }`}
+              style={{
+                padding: '6px 18px',
+                borderRadius: '9999px',
+                fontSize: '13px',
+                fontWeight: isActive ? 700 : 500,
+                backgroundColor: isActive ? '#5b3cf5' : '#ffffff',
+                color: isActive ? '#ffffff' : '#475569',
+                border: isActive ? '1px solid #5b3cf5' : '1px solid #e2e8f0',
+                boxShadow: isActive ? '0 2px 8px rgba(91, 60, 245, 0.28)' : '0 1px 2px rgba(0,0,0,0.03)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
             >
               {cat.label}
             </button>

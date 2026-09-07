@@ -197,7 +197,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F6FB] text-slate-900 flex flex-col font-sans antialiased selection:bg-[#4F46E5] selection:text-white">
+    <div style={{ minHeight: '100vh', backgroundColor: '#f4f6fb', display: 'flex', flexDirection: 'column' }}>
       {/* 1. Clean White Sticky Header */}
       <Header
         onOpenReport={() => handleOpenComposer('BRIBE')}
@@ -213,8 +213,8 @@ export default function HomePage() {
       />
 
       {/* 2. Top Category Pills Filter Bar */}
-      <div className="bg-[#F4F6FB] border-b border-slate-200/50 pt-2 pb-1">
-        <div className="max-w-7xl mx-auto px-4">
+      <div style={{ backgroundColor: '#f4f6fb', borderBottom: '1px solid #e9ecef', paddingTop: '8px', paddingBottom: '4px' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 16px' }}>
           <CategoryPills
             activeCategory={activeCategory}
             onSelectCategory={setActiveCategory}
@@ -223,11 +223,18 @@ export default function HomePage() {
       </div>
 
       {/* 3. Main 3-Column Grid Container */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-5 flex-1 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-          
-          {/* Left Column: Navigation & Trending Topics (3 Cols) */}
-          <div className="hidden lg:block lg:col-span-3 sticky top-20">
+      <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '16px', flex: 1, width: '100%', boxSizing: 'border-box' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '20px',
+            alignItems: 'start'
+          }}
+          className="main-grid-layout"
+        >
+          {/* Left Column: Navigation & Trending Topics */}
+          <div className="left-sidebar-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <SidebarNavigation
               onSelectTopic={(topic) => {
                 setSearchQuery(topic);
@@ -236,9 +243,8 @@ export default function HomePage() {
             />
           </div>
 
-          {/* Center Column: Main Feed Composer & Post Cards (6 Cols) */}
-          <div className="col-span-1 lg:col-span-6 space-y-4">
-            
+          {/* Center Column: Main Feed Composer & Post Cards */}
+          <div className="center-feed-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {/* Feed Composer Box */}
             <FeedComposer
               onOpenComposer={handleOpenComposer}
@@ -247,15 +253,29 @@ export default function HomePage() {
 
             {/* Success Toast */}
             {successToast && (
-              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-between shadow-xs animate-fade-in">
-                <div className="flex items-center gap-2">
+              <div
+                style={{
+                  backgroundColor: '#ecfdf5',
+                  border: '1px solid #a7f3d0',
+                  color: '#065f46',
+                  padding: '12px 16px',
+                  borderRadius: '14px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span>✓</span>
                   <span>{successToast}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSuccessToast(null)}
-                  className="text-emerald-600 hover:text-emerald-900 p-0.5 cursor-pointer"
+                  style={{ background: 'transparent', border: 'none', color: '#059669', cursor: 'pointer', padding: '2px' }}
                 >
                   ✕
                 </button>
@@ -264,12 +284,37 @@ export default function HomePage() {
 
             {/* Feed Posts List */}
             {filteredReports.length === 0 ? (
-              <div className="bg-white rounded-2xl p-8 text-center border border-slate-200/70 shadow-xs space-y-3">
-                <div className="w-12 h-12 rounded-full bg-indigo-50 text-[#4F46E5] mx-auto flex items-center justify-center text-xl">
+              <div
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '18px',
+                  padding: '36px',
+                  textAlign: 'center',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}
+              >
+                <div
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '9999px',
+                    backgroundColor: '#eef2ff',
+                    color: '#5b3cf5',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '20px'
+                  }}
+                >
                   🔍
                 </div>
-                <h4 className="text-base font-bold text-slate-900">কোনো অভিযোগ পাওয়া যায়নি</h4>
-                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                <h4 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: 0 }}>কোনো অভিযোগ পাওয়া যায়নি</h4>
+                <p style={{ fontSize: '13px', color: '#64748b', maxWidth: '360px', margin: 0 }}>
                   আপনার অনুসন্ধান ফিল্টারের সাথে মিলে এমন কোনো পোস্ট পাওয়া যায়নি। ফিল্টার রিসেট করুন।
                 </p>
                 <button
@@ -279,7 +324,17 @@ export default function HomePage() {
                     setSelectedDivision('ALL');
                     setSearchQuery('');
                   }}
-                  className="px-4 py-1.5 rounded-xl bg-[#4F46E5] text-white text-xs font-semibold hover:bg-[#4338CA] transition cursor-pointer"
+                  style={{
+                    padding: '8px 18px',
+                    borderRadius: '10px',
+                    backgroundColor: '#5b3cf5',
+                    color: '#ffffff',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    marginTop: '4px'
+                  }}
                 >
                   ফিল্টার রিসেট করুন
                 </button>
@@ -298,11 +353,10 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* Right Column: Ledger Summary, Hotlines, Citizen Banner (3 Cols) */}
-          <div className="col-span-1 lg:col-span-3 space-y-4">
+          {/* Right Column: Ledger Summary, Hotlines, Citizen Banner */}
+          <div className="right-sidebar-col" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <TrendingSidebar />
           </div>
-
         </div>
       </main>
 
